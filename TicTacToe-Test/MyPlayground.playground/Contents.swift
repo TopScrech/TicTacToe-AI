@@ -24,7 +24,12 @@ func hasWin(_ move: String) -> Bool {
 @MainActor
 func moveRandom(_ move: String) {
     guard !gameOver else { return }
-    guard !isFull() else { gameOver = true; print("Finished"); return }
+    
+    guard !isFull() else {
+        gameOver = true
+        print("Finished")
+        return
+    }
     
     let r = Int.random(in: 0...2)
     let c = Int.random(in: 0...2)

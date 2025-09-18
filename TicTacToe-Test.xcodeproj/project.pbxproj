@@ -6,17 +6,19 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		F320DCC62E7C009D00C0281F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F320DCC32E7C009D00C0281F /* ContentView.swift */; };
+		F320DCC72E7C009D00C0281F /* TicTacToe_TestApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */; };
+		F320DCC82E7C009D00C0281F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F320DCC22E7C009D00C0281F /* Assets.xcassets */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		F320DCB42E7C009800C0281F /* TicTacToe-Test.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "TicTacToe-Test.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F320DCC22E7C009D00C0281F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F320DCC32E7C009D00C0281F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToe_TestApp.swift; sourceTree = "<group>"; };
+		F320DCC92E7C00AD00C0281F /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		F320DCB62E7C009800C0281F /* TicTacToe-Test */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "TicTacToe-Test";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F320DCB12E7C009800C0281F /* Frameworks */ = {
@@ -32,7 +34,7 @@
 		F320DCAB2E7C009800C0281F = {
 			isa = PBXGroup;
 			children = (
-				F320DCB62E7C009800C0281F /* TicTacToe-Test */,
+				F320DCC52E7C009D00C0281F /* TicTacToe-Test */,
 				F320DCB52E7C009800C0281F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -43,6 +45,17 @@
 				F320DCB42E7C009800C0281F /* TicTacToe-Test.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		F320DCC52E7C009D00C0281F /* TicTacToe-Test */ = {
+			isa = PBXGroup;
+			children = (
+				F320DCC22E7C009D00C0281F /* Assets.xcassets */,
+				F320DCC32E7C009D00C0281F /* ContentView.swift */,
+				F320DCC92E7C00AD00C0281F /* MyPlayground.playground */,
+				F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */,
+			);
+			path = "TicTacToe-Test";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -59,9 +72,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				F320DCB62E7C009800C0281F /* TicTacToe-Test */,
 			);
 			name = "TicTacToe-Test";
 			packageProductDependencies = (
@@ -109,6 +119,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F320DCC82E7C009D00C0281F /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +130,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F320DCC62E7C009D00C0281F /* ContentView.swift in Sources */,
+				F320DCC72E7C009D00C0281F /* TicTacToe_TestApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -77,7 +77,17 @@ func moveRandom(_ move: String) {
 
 var current = "x"
 
-while !gameOver {
-    moveRandom(current)
-    current = (current == "x") ? "o" : "x"
+@MainActor
+func play(_ times: Int) {
+    for _ in 0...times-1 {
+        while !gameOver {
+            moveRandom(current)
+            current = (current == "x") ? "o" : "x"
+        }
+        
+        gameOver = false
+        board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+    }
 }
+
+play(5)

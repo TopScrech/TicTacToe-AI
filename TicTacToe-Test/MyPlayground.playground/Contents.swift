@@ -14,20 +14,39 @@ func isFull() -> Bool {
 
 @MainActor
 func hasWin(_ move: String) -> Bool {
-    for r in 0..<3 { if board[r][0] == move && board[r][1] == move && board[r][2] == move { return true } }
-    for c in 0..<3 { if board[0][c] == move && board[1][c] == move && board[2][c] == move { return true } }
-    if board[0][0] == move && board[1][1] == move && board[2][2] == move { return true }
-    if board[0][2] == move && board[1][1] == move && board[2][0] == move { return true }
+    for r in 0..<3 {
+        if board[r][0] == move && board[r][1] == move && board[r][2] == move {
+            return true
+        }
+    }
+    
+    for c in 0..<3 {
+        if board[0][c] == move && board[1][c] == move && board[2][c] == move {
+            return true
+        }
+    }
+    
+    if board[0][0] == move && board[1][1] == move && board[2][2] == move {
+        return true
+    }
+    
+    if board[0][2] == move && board[1][1] == move && board[2][0] == move {
+        return true
+    }
+    
     return false
 }
 
 @MainActor
 func moveRandom(_ move: String) {
-    guard !gameOver else { return }
+    guard !gameOver else {
+        return
+    }
     
     guard !isFull() else {
         gameOver = true
         print("Finished")
+        
         return
     }
     
@@ -37,14 +56,27 @@ func moveRandom(_ move: String) {
     if board[r][c] == " " {
         board[r][c] = move
         printBoard(board)
-        if hasWin(move) { gameOver = true; print("\(move.uppercased()) wins"); return }
-        if isFull() { gameOver = true; print("Finished"); return }
+        
+        if hasWin(move) {
+            gameOver = true
+            print("\(move.uppercased()) wins")
+            
+            return
+        }
+        
+        if isFull() {
+            gameOver = true
+            print("Finished")
+            
+            return
+        }
     } else {
         moveRandom(move)
     }
 }
 
 var current = "x"
+
 while !gameOver {
     moveRandom(current)
     current = (current == "x") ? "o" : "x"

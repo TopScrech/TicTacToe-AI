@@ -53,26 +53,6 @@ func findPossibleMoves(
     return moves
 }
 
-func start(_ playerToMove: String, on board: [[String]]) {
-    guard
-        let possibleMoves = findPossibleMoves(playerToMove, on: board)
-    else {
-        return
-    }
-    
-    for possibleMove in possibleMoves {
-        print(printBoard(possibleMove))
-        
-        let eval = eval(possibleMove)
-        
-        if eval == 0, !isFull(possibleMove) {
-            start(togglePlayer(playerToMove), on: possibleMove)
-        } else {
-            print(eval)
-        }
-    }
-}
-
 func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     for r in 0..<3 {
         if board[r][0] == player && board[r][1] == player && board[r][2] == player {
@@ -95,6 +75,26 @@ func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     }
     
     return false
+}
+
+func start(_ playerToMove: String, on board: [[String]]) {
+    guard
+        let possibleMoves = findPossibleMoves(playerToMove, on: board)
+    else {
+        return
+    }
+    
+    for possibleMove in possibleMoves {
+        print(printBoard(possibleMove))
+        
+        let eval = eval(possibleMove)
+        
+        if eval == 0, !isFull(possibleMove) {
+            start(togglePlayer(playerToMove), on: possibleMove)
+        } else {
+            print(eval)
+        }
+    }
 }
 
 let date1 = Date()

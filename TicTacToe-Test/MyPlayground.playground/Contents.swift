@@ -1,10 +1,18 @@
 import Foundation
 
-var board = [[" "," "," "],[" "," "," "],[" "," "," "]]
+var board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 var gameOver = false
 
 func printBoard(_ board: [[String]]) {
-    print("\n\(board[0])\n\(board[1])\n\(board[2])\n")
+    for row in 0..<3 {
+        print(" \(board[row][0]) | \(board[row][1]) | \(board[row][2]) ")
+        
+        if row < 2 {
+            print("---+---+---")
+        }
+    }
+    
+    print("\n")
 }
 
 @MainActor
@@ -66,7 +74,7 @@ func moveRandom(_ move: String) {
         
         if isFull() {
             gameOver = true
-            print("Finished")
+            print("Tie")
             
             return
         }
@@ -90,4 +98,4 @@ func play(_ times: Int) {
     }
 }
 
-play(5)
+play(1)

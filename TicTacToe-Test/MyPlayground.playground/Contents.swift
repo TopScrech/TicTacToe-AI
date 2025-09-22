@@ -67,7 +67,7 @@ func moveRandom(_ move: String) {
         
         if hasWin(move) {
             gameOver = true
-            print("\(move.uppercased()) wins")
+            print(move.uppercased(), "wins")
             
             return
         }

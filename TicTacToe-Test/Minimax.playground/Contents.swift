@@ -14,15 +14,39 @@ func hasWin(_ board: [[String]]) -> Int {
     return 0
 }
 
-print(hasWin([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
-print(hasWin([["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
-print(hasWin([[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
-print(hasWin([[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
-print(hasWin([["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
-print(hasWin([[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
-print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-print(hasWin([["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
+func findPossibleMoves(
+    _ playerToMove: String,
+    on board: [[String]]
+) -> [[[String]]] {
+    
+    var moves: [[[String]]] = []
+    
+    for row in 0..<board.count {
+        for col in 0..<board[row].count {
+            if board[row][col] == " " {
+                var newBoard = board
+                newBoard[row][col] = playerToMove
+                
+                moves.append(newBoard)
+            }
+        }
+    }
+    
+    return moves
+}
+
+assert(findPossibleMoves("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]).count == 9, findPossibleMoves("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]).count.description)
+
+// MARK: Eval positions with -1, 0 or 1
+//print(hasWin([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
+//print(hasWin([["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
+//print(hasWin([[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
+//print(hasWin([[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
+//print(hasWin([["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
+//print(hasWin([[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
+//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
+//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
+//print(hasWin([["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
 
 //func hasWin(_ board: [[String]]) -> Bool {
 //    if playerHasWin("x", on: board) || playerHasWin("o", on: board) {

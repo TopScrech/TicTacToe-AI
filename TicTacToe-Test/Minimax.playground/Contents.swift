@@ -2,14 +2,36 @@ import Foundation
 
 var board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
-func hasWin(_ board: [[String]]) -> Bool {
-    if playerHasWin("x", on: board) || playerHasWin("o", on: board) {
-        true
-    } else {
-        false
+func hasWin(_ board: [[String]]) -> Int {
+    if playerHasWin("x", on: board) {
+        return 1
     }
+    
+    if playerHasWin("o", on: board) {
+        return -1
+    }
+    
+    return 0
 }
 
+print(hasWin([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
+print(hasWin([["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
+print(hasWin([[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
+print(hasWin([[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
+print(hasWin([["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
+print(hasWin([[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
+print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
+print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
+print(hasWin([["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
+
+//func hasWin(_ board: [[String]]) -> Bool {
+//    if playerHasWin("x", on: board) || playerHasWin("o", on: board) {
+//        true
+//    } else {
+//        false
+//    }
+//}
+//
 //print(playerHasWin("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
 //print(playerHasWin("x", on: [["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
 //print(playerHasWin("x", on: [[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))

@@ -96,7 +96,10 @@ func buildTree(_ playerToMove: String, on board: [[String]]) -> GameTree {
 }
 
 func allTrees(_ playerToMove: String, on board: [[String]]) -> [GameTree] {
-    guard let possibleMoves = findPossibleMoves(playerToMove, on: board), !possibleMoves.isEmpty else {
+    guard
+        let possibleMoves = findPossibleMoves(playerToMove, on: board),
+        !possibleMoves.isEmpty
+    else {
         return [buildTree(playerToMove, on: board)]
     }
     

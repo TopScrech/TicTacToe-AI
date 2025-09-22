@@ -77,34 +77,59 @@ func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     return false
 }
 
-func start(_ playerToMove: String, on board: [[String]]) {
-    guard
-        let possibleMoves = findPossibleMoves(playerToMove, on: board)
-    else {
-        return
+func buildTree(_ playerToMove: String, on board: [[String]]) -> GameTree {
+    let value = eval(board)
+    
+    if value != 0 || isFull(board) {
+        return GameTree(board: board, eval: value, subtrees: [])
     }
     
-    for possibleMove in possibleMoves {
-        print(printBoard(possibleMove))
-        
-        let eval = eval(possibleMove)
-        
-        if eval == 0, !isFull(possibleMove) {
-            start(togglePlayer(playerToMove), on: possibleMove)
-        } else {
-            print(eval)
-        }
+    guard let possibleMoves = findPossibleMoves(playerToMove, on: board), !possibleMoves.isEmpty else {
+        return GameTree(board: board, eval: value, subtrees: [])
+    }
+    
+    let next = possibleMoves.map { move in
+        buildTree(togglePlayer(playerToMove), on: move)
+    }
+    
+    return GameTree(board: board, eval: value, subtrees: next)
+}
+
+func allTrees(_ playerToMove: String, on board: [[String]]) -> [GameTree] {
+    guard let possibleMoves = findPossibleMoves(playerToMove, on: board), !possibleMoves.isEmpty else {
+        return [buildTree(playerToMove, on: board)]
+    }
+    
+    return possibleMoves.map { move in
+        buildTree(togglePlayer(playerToMove), on: move)
     }
 }
 
 let date1 = Date()
-
 let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
+let trees = allTrees("x", on: startingBoard)
+
+let total = trees.map(\.endgames).reduce(0, +)
+print(total)
+
+//let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
 //let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
 print("Starting position, x to move")
 
 print(printBoard(startingBoard))
-start("x", on: startingBoard)
+//start("x", on: startingBoard)
 
 let date2 = Date()
 print("Time passed: \(date2.timeIntervalSince(date1)) seconds")
+
+struct GameTree: Hashable {
+    let board: [[String]]
+    let eval: Int
+    let subtrees: [GameTree]
+}
+
+extension GameTree {
+    var endgames: Int {
+        subtrees.isEmpty ? 1 : subtrees.map(\.endgames).reduce(0, +)
+    }
+}

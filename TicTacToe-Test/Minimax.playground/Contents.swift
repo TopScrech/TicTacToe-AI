@@ -1,6 +1,12 @@
 import Foundation
 
-var board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+func isFull(_ board: [[String]]) -> Bool {
+    !board.flatMap { $0 }.contains(" ")
+}
+
+func togglePlayer(_ player: String) -> String {
+    player == "x" ? "o" : "x"
+}
 
 func eval(_ board: [[String]]) -> Int {
     if playerHasWin("x", on: board) {
@@ -47,10 +53,6 @@ func findPossibleMoves(
     return moves
 }
 
-func isFull(_ board: [[String]]) -> Bool {
-    !board.flatMap { $0 }.contains(" ")
-}
-
 func start(_ playerToMove: String, on board: [[String]]) {
     guard
         let possibleMoves = findPossibleMoves(playerToMove, on: board)
@@ -70,22 +72,6 @@ func start(_ playerToMove: String, on board: [[String]]) {
         }
     }
 }
-
-func togglePlayer(_ player: String) -> String {
-    player == "x" ? "o" : "x"
-}
-
-let date1 = Date()
-
-let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
-//let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
-print("Starting position, x to move")
-
-print(printBoard(startingBoard))
-start("x", on: startingBoard)
-
-let date2 = Date()
-print("Time passed: \(date2.timeIntervalSince(date1)) seconds")
 
 func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     for r in 0..<3 {
@@ -110,3 +96,15 @@ func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     
     return false
 }
+
+let date1 = Date()
+
+let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
+//let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
+print("Starting position, x to move")
+
+print(printBoard(startingBoard))
+start("x", on: startingBoard)
+
+let date2 = Date()
+print("Time passed: \(date2.timeIntervalSince(date1)) seconds")

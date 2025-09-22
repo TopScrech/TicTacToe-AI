@@ -2,7 +2,7 @@ import Foundation
 
 var board = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
 
-func hasWin(_ board: [[String]]) -> Int {
+func eval(_ board: [[String]]) -> Int {
     if playerHasWin("x", on: board) {
         return 1
     }
@@ -14,10 +14,26 @@ func hasWin(_ board: [[String]]) -> Int {
     return 0
 }
 
+func printBoard(_ board: [[String]]) {
+    for row in 0..<3 {
+        print(" \(board[row][0]) | \(board[row][1]) | \(board[row][2]) ")
+        
+        if row < 2 {
+            print("---+---+---")
+        }
+    }
+    
+    print("\n")
+}
+
 func findPossibleMoves(
     _ playerToMove: String,
     on board: [[String]]
-) -> [[[String]]] {
+) -> [[[String]]]? {
+    
+    if isFull(board) {
+        return nil
+    }
     
     var moves: [[[String]]] = []
     
@@ -35,48 +51,34 @@ func findPossibleMoves(
     return moves
 }
 
-assert(findPossibleMoves("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]).count == 9, findPossibleMoves("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]).count.description)
+func isFull(_ board: [[String]]) -> Bool {
+    !board.flatMap { $0 }.contains(" ")
+}
 
-// MARK: Eval positions with -1, 0 or 1
-//print(hasWin([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
-//print(hasWin([["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
-//print(hasWin([[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
-//print(hasWin([[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
-//print(hasWin([["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
-//print(hasWin([[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
-//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(hasWin([["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
+func start(_ playerToMove: String, on board: [[String]]) {
+    guard
+        let possibleMoves = findPossibleMoves(playerToMove, on: board)
+    else {
+        return
+    }
+    
+    for possibleMove in possibleMoves {
+        let eval = eval(possibleMove)
+        print(eval)
+        
+        print(printBoard(possibleMove))
+        
+        if eval == 0 {
+            start(togglePlayer(playerToMove), on: possibleMove)
+        }
+    }
+}
 
-//func hasWin(_ board: [[String]]) -> Bool {
-//    if playerHasWin("x", on: board) || playerHasWin("o", on: board) {
-//        true
-//    } else {
-//        false
-//    }
-//}
-//
-//print(playerHasWin("x", on: [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
-//print(playerHasWin("x", on: [["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
-//print(playerHasWin("x", on: [[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
-//print(playerHasWin("x", on: [[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
-//print(playerHasWin("x", on: [["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
-//print(playerHasWin("x", on: [[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
-//print(playerHasWin("x", on: [["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(playerHasWin("o", on: [["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(playerHasWin("x", on: [["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
-//
-//print("\n")
-//
-//print(hasWin([[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]))
-//print(hasWin([["x", "x", "x"], [" ", " ", " "], [" ", " ", " "]]))
-//print(hasWin([[" ", " ", " "], ["x", "x", "x"], [" ", " ", " "]]))
-//print(hasWin([[" ", " ", " "], [" ", " ", " "], ["x", "x", "x"]]))
-//print(hasWin([["x", " ", " "], [" ", "x", " "], [" ", " ", "x"]]))
-//print(hasWin([[" ", " ", "x"], [" ", "x", " "], ["x", " ", " "]]))
-//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(hasWin([["x", " ", " "], ["x", " ", " "], ["x", " ", " "]]))
-//print(hasWin([["o", " ", " "], ["o", " ", " "], ["o", " ", " "]]))
+func togglePlayer(_ player: String) -> String {
+    player == "x" ? "o" : "x"
+}
+
+start("x", on: [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]])
 
 func playerHasWin(_ player: String, on board: [[String]]) -> Bool {
     for r in 0..<3 {

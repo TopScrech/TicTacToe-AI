@@ -50,10 +50,10 @@
 		F320DCC52E7C009D00C0281F /* TicTacToe-Test */ = {
 			isa = PBXGroup;
 			children = (
+				F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */,
 				F320DCC22E7C009D00C0281F /* Assets.xcassets */,
 				F320DCC32E7C009D00C0281F /* ContentView.swift */,
 				F3AF84D42E814A7B00A562FD /* Minimax.playground */,
-				F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */,
 			);
 			path = "TicTacToe-Test";
 			sourceTree = "<group>";

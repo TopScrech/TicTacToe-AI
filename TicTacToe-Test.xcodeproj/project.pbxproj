@@ -17,7 +17,6 @@
 		F320DCC22E7C009D00C0281F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		F320DCC32E7C009D00C0281F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicTacToe_TestApp.swift; sourceTree = "<group>"; };
-		F320DCC92E7C00AD00C0281F /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		F3AF84D42E814A7B00A562FD /* Minimax.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Minimax.playground; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 /* End PBXFileReference section */
 
@@ -54,7 +53,6 @@
 				F320DCC22E7C009D00C0281F /* Assets.xcassets */,
 				F320DCC32E7C009D00C0281F /* ContentView.swift */,
 				F3AF84D42E814A7B00A562FD /* Minimax.playground */,
-				F320DCC92E7C00AD00C0281F /* MyPlayground.playground */,
 				F320DCC42E7C009D00C0281F /* TicTacToe_TestApp.swift */,
 			);
 			path = "TicTacToe-Test";

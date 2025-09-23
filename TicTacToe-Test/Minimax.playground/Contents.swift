@@ -126,15 +126,13 @@ print(printBoard(startingBoard))
 //start("x", on: startingBoard)
 
 let date2 = Date()
-print("Time passed: \(date2.timeIntervalSince(date1)) seconds")
+print("Time passed:", date2.timeIntervalSince(date1), "seconds")
 
 struct GameTree: Hashable {
     let board: [[String]]
     let eval: Int
     let subtrees: [GameTree]
-}
-
-extension GameTree {
+    
     var endgames: Int {
         subtrees.isEmpty ? 1 : subtrees.map(\.endgames).reduce(0, +)
     }

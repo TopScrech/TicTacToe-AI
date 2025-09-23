@@ -8,7 +8,7 @@
 
 1  Win
 
-Steps
+## Steps
 1. Eval the current position
 2. Recursively find all move trees
 3. Eval trees and cut the losing ones

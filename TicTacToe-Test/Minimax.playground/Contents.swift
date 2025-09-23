@@ -22,7 +22,7 @@ func eval(_ board: [[String]]) -> Int {
 
 func printBoard(_ board: [[String]]) {
     for row in 0..<3 {
-        print(" \(board[row][0]) | \(board[row][1]) | \(board[row][2]) ")
+        print("", board[row][0], "|", board[row][1], "|", board[row][2], "")
         
         if row < 2 {
             print("---+---+---")

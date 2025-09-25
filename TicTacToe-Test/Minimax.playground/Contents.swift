@@ -186,6 +186,7 @@ func minimaxScore(_ tree: GameTree, for player: String, depth: Int = 0) -> Int {
         
         for st in tree.subtrees {
             let s = minimaxScore(st, for: player, depth: depth + 1)
+            
             if s < best {
                 best = s
             }
@@ -216,6 +217,13 @@ func bestTrees(from roots: [GameTree], for player: String) -> [GameTree] {
 }
 
 func bestMove(for player: String, on board: [[String]]) -> [[String]] {
+    // First move always in center for optimization
+    if player == "x" && board.flatMap({ $0 }).allSatisfy({ $0 == " " }) {
+        var newBoard = board
+        newBoard[1][1] = "x"
+        return newBoard
+    }
+    
     let roots = allTrees(player, on: board)
     let best = bestTrees(from: roots, for: player)
     
@@ -234,6 +242,19 @@ func bestMove(for player: String, on board: [[String]]) -> [[String]] {
     return sorted.first!.board
 }
 
+func randomMove(for player: String, on board: [[String]]) -> [[String]] {
+    guard
+        let moves = findPossibleMoves(player, on: board),
+        !moves.isEmpty
+    else {
+        return board
+    }
+    
+    return moves[
+        Int.random(in: 0..<moves.count)
+    ]
+}
+
 func play(_ games: Int, startingBoard: [[String]]? = nil) {
     var xWins = 0
     var oWins = 0
@@ -243,17 +264,19 @@ func play(_ games: Int, startingBoard: [[String]]? = nil) {
         let date1 = Date()
         
         var board = startingBoard ?? Array(repeating: Array(repeating: " ", count: 3), count: 3)
-        
-        // Starting position given: find who's next
-        // Otherwise:               alternate who starts
-        var player = startingBoard == nil ? (g % 2 == 1 ? "x" : "o") : nextPlayer(on: board)
+        var player = "x"
         
         while true {
             if playerHasWin("x", on: board) || playerHasWin("o", on: board) || isFull(board) {
                 break
             }
             
-            board = bestMove(for: player, on: board)
+            if player == "x" {
+                board = bestMove(for: player, on: board)
+            } else {
+                board = randomMove(for: player, on: board)
+            }
+            
             player = togglePlayer(player)
         }
         
@@ -276,5 +299,5 @@ func play(_ games: Int, startingBoard: [[String]]? = nil) {
     }
 }
 
-let startingBoard = [["x", " ", " "], [" ", " ", " "], [" ", " ", " "]]
-play(10, startingBoard: startingBoard)
+let startingBoard = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+//play(100, startingBoard: startingBoard)

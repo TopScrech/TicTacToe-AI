@@ -106,34 +106,16 @@ func allTrees(_ playerToMove: String, on board: [[String]]) -> [GameTree] {
         return [buildTree(playerToMove, on: board)]
     }
     
-    return possibleMoves.map { move in
-        buildTree(togglePlayer(playerToMove), on: move)
+    var results = Array<GameTree?>(repeating: nil, count: possibleMoves.count)
+    
+    results.withUnsafeMutableBufferPointer { buffer in
+        DispatchQueue.concurrentPerform(iterations: possibleMoves.count) { i in
+            buffer[i] = buildTree(togglePlayer(playerToMove), on: possibleMoves[i])
+        }
     }
+    
+    return results.map { $0! }
 }
-
-let date1 = Date()
-let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
-//let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
-
-let trees = allTrees("x", on: startingBoard)
-
-let totals = trees.map { $0.countEvals() }
-let neg1 = totals.map(\.neg1).reduce(0, +)
-let zero = totals.map(\.zero).reduce(0, +)
-let pos1 = totals.map(\.pos1).reduce(0, +)
-
-print("endgames:", neg1 + zero + pos1)
-print("eval  1:", pos1)
-print("eval  0:", zero)
-print("eval -1:", neg1)
-
-print("Starting position, x to move")
-
-print(printBoard(startingBoard))
-//start("x", on: startingBoard)
-
-let date2 = Date()
-print("Time passed:", date2.timeIntervalSince(date1), "seconds")
 
 struct GameTree: Hashable {
     let board: [[String]]
@@ -165,3 +147,134 @@ struct GameTree: Hashable {
         return (totalNeg1, totalZero, totalPos1)
     }
 }
+
+func nextPlayer(on board: [[String]]) -> String {
+    let flat = board.flatMap { $0 }
+    let x = flat.filter { $0 == "x" }.count
+    let o = flat.filter { $0 == "o" }.count
+    
+    return x == o ? "x" : "o"
+}
+
+func minimaxScore(_ tree: GameTree, for player: String, depth: Int = 0) -> Int {
+    if tree.subtrees.isEmpty {
+        let base = player == "x" ? tree.eval : -tree.eval
+        
+        switch base {
+        case 1:  return 10 - depth
+        case -1: return -10 + depth
+        default: return 0
+        }
+    }
+    
+    let maximizing = nextPlayer(on: tree.board) == player
+    
+    if maximizing {
+        var best = Int.min
+        
+        for st in tree.subtrees {
+            let s = minimaxScore(st, for: player, depth: depth + 1)
+            
+            if s > best {
+                best = s
+            }
+        }
+        
+        return best
+    } else {
+        var best = Int.max
+        
+        for st in tree.subtrees {
+            let s = minimaxScore(st, for: player, depth: depth + 1)
+            if s < best {
+                best = s
+            }
+        }
+        
+        return best
+    }
+}
+
+func bestTrees(from roots: [GameTree], for player: String) -> [GameTree] {
+    guard !roots.isEmpty else {
+        return []
+    }
+    
+    let scored = roots.map {
+        (minimaxScore($0, for: player), $0)
+    }
+    
+    let bestScore = scored.map {
+        $0.0
+    }.max()!
+    
+    return scored.filter {
+        $0.0 == bestScore
+    }.map {
+        $0.1
+    }
+}
+
+func bestMove(for player: String, on board: [[String]]) -> [[String]] {
+    let roots = allTrees(player, on: board)
+    let best = bestTrees(from: roots, for: player)
+    
+    guard !best.isEmpty else {
+        return board
+    }
+    
+    let sorted = best.sorted { a, b in
+        a.board.flatMap {
+            $0
+        }.joined() < b.board.flatMap {
+            $0
+        }.joined()
+    }
+    
+    return sorted.first!.board
+}
+
+func play(_ games: Int, startingBoard: [[String]]? = nil) {
+    var xWins = 0
+    var oWins = 0
+    var draws = 0
+    
+    for g in 1...games {
+        let date1 = Date()
+        
+        var board = startingBoard ?? Array(repeating: Array(repeating: " ", count: 3), count: 3)
+        
+        // Starting position given: find who's next
+        // Otherwise:               alternate who starts
+        var player = startingBoard == nil ? (g % 2 == 1 ? "x" : "o") : nextPlayer(on: board)
+        
+        while true {
+            if playerHasWin("x", on: board) || playerHasWin("o", on: board) || isFull(board) {
+                break
+            }
+            
+            board = bestMove(for: player, on: board)
+            player = togglePlayer(player)
+        }
+        
+        let score = eval(board)
+        
+        if score == 1 {
+            xWins += 1
+        } else if score == -1 {
+            oWins += 1
+        } else {
+            draws += 1
+        }
+        
+        let date2 = Date()
+        print("Time passed:", date2.timeIntervalSince(date1))
+        
+        print("game", g, "result:", score == 1 ? "x wins" : score == -1 ? "o wins" : "draw")
+        printBoard(board)
+        print("score so far -> x:", xWins, "o:", oWins, "draws:", draws)
+    }
+}
+
+let startingBoard = [["x", " ", " "], [" ", " ", " "], [" ", " ", " "]]
+play(10, startingBoard: startingBoard)

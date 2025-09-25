@@ -113,13 +113,20 @@ func allTrees(_ playerToMove: String, on board: [[String]]) -> [GameTree] {
 
 let date1 = Date()
 let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
+//let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
+
 let trees = allTrees("x", on: startingBoard)
 
-let total = trees.map(\.endgames).reduce(0, +)
-print(total)
+let totals = trees.map { $0.countEvals() }
+let neg1 = totals.map(\.neg1).reduce(0, +)
+let zero = totals.map(\.zero).reduce(0, +)
+let pos1 = totals.map(\.pos1).reduce(0, +)
 
-//let startingBoard = [["x", " ", "o"], [" ", " ", " "], [" ", " ", " "]]
-//let startingBoard = [["x", "o", "x"], ["x", "o", "o"], [" ", " ", " "]]
+print("endgames:", neg1 + zero + pos1)
+print("eval  1:", pos1)
+print("eval  0:", zero)
+print("eval -1:", neg1)
+
 print("Starting position, x to move")
 
 print(printBoard(startingBoard))
@@ -135,5 +142,26 @@ struct GameTree: Hashable {
     
     var endgames: Int {
         subtrees.isEmpty ? 1 : subtrees.map(\.endgames).reduce(0, +)
+    }
+    
+    func countEvals() -> (neg1: Int, zero: Int, pos1: Int) {
+        let selfCount: (Int, Int, Int)
+        
+        switch eval {
+        case -1: selfCount = (1, 0, 0)
+        case 0:  selfCount = (0, 1, 0)
+        case 1:  selfCount = (0, 0, 1)
+        default: selfCount = (0, 0, 0)
+        }
+        
+        let subCounts = subtrees.map {
+            $0.countEvals()
+        }
+        
+        let totalNeg1 = subCounts.map(\.neg1).reduce(selfCount.0, +)
+        let totalZero = subCounts.map(\.zero).reduce(selfCount.1, +)
+        let totalPos1 = subCounts.map(\.pos1).reduce(selfCount.2, +)
+        
+        return (totalNeg1, totalZero, totalPos1)
     }
 }

@@ -300,4 +300,4 @@ func play(_ games: Int, startingBoard: [[String]]? = nil) {
 }
 
 let startingBoard = [[" ", " ", " "], [" ", " ", " "], [" ", " ", " "]]
-//play(100, startingBoard: startingBoard)
+//play(5, startingBoard: startingBoard)

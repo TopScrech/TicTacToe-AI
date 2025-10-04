@@ -162,7 +162,7 @@ func minimaxScore(_ tree: GameTree, for player: String, depth: Int = 0) -> Int {
         
         switch base {
         case 1:  return 10 - depth
-        case -1: return -10 + depth
+        case -1: return depth - 10
         default: return 0
         }
     }
